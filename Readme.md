@@ -65,30 +65,24 @@ the results are somewhat tenuous.
 
 # Contents
 
-- [Overview](#overview)
-  - [Summary of findings](#summary-of-findings)
-- [Contents](#contents)
-- [Analysis](#analysis)
-  - [Call data](#call-data)
-  - [Survival models](#survival-models)
-    - [Continuous time Survival with multiply imputed data, unconditional model in Stata](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-stata)
-    - [Continuous time Survival with multiply imputed data, unconditional model in Mplus](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-mplus)
-  - [Latent growth curve model](#latent-growth-curve-model)
-    - [Unconditional, imputed data](#unconditional-imputed-data)
-    - [Conditional, imputed data](#conditional-imputed-data)
-    - [Joint model](#joint-model)
-- [Summary Table](#summary-table)
-  - [HbA1c spline                         1.190)                        1.141)                      1.134)](#hba1c-spline-------------------------1190------------------------1141----------------------1134)
-- [Summary Table](#summary-table-1)
-- [Detailed results and program files](#detailed-results-and-program-files)
-  - [PDF Tables on GitHub](#pdf-tables-on-github)
-  - [Code files on GitHub](#code-files-on-github)
-    - [Master](#master)
-    - [Continuous time survival, unconditional](#continuous-time-survival-unconditional)
-    - [Continuous time survival, conditional](#continuous-time-survival-conditional)
-    - [Latent growth curve model, unconditional](#latent-growth-curve-model-unconditional)
-    - [Latent growth curve model, conditional](#latent-growth-curve-model-conditional)
-    - [Joint model](#joint-model-1)
+1.  [Overview](#overview)
+2.  [Analysis](#analysis)
+    a.  [Data and processing](#data-and-processing)
+    b.  [Survival models](#survival-models)
+        i.  [Continuous time survival with multiply imputed data,
+            unconditional model in
+            Stata](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-stata)
+        ii. [Continuous time survival with multiply imputed data,
+            unconditional model in
+            Mplus](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-mplus)
+    c.  [Latent growth curve model](#latent-growth-curve-model)
+        i.  [Unconditional, imputed data](#unconditional-imputed-data)
+        ii. [Conditional, imputed data](#conditional-imputed-data)
+        iii. [Joint model](#joint-model)
+3.  [Summary table](#summary-table)
+4.  [Sample descriptive table](#sample-descriptive-table)
+5.  [Detailed results and program
+    files](#detailed-results-and-program-files)
 
 # Analysis
 
@@ -1690,7 +1684,7 @@ characteristics](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table5.pdf)\
 [Table 6 Participant reported sensory
 impairment](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table6.pdf)\
 [Table 7 Participant self-reported health
-behaviors](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf)\
+behaviors](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf)
 
 ## Code files on GitHub
 
@@ -1706,7 +1700,7 @@ output](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_s
 [Model 1 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.inp)\
 [Model 1 out
-file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.out)\
+file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.out)
 
 ### Continuous time survival, conditional
 
@@ -1715,7 +1709,7 @@ codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5.do)\
 [Model 5 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.inp)\
 [Model 5 out
-file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.out)\
+file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.out)
 
 ### Latent growth curve model, unconditional
 
@@ -1724,7 +1718,7 @@ codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2.do)\
 [Model 2 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.inp)\
 [Model 2 out
-file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.out)\
+file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.out)
 
 ### Latent growth curve model, conditional
 
@@ -1733,7 +1727,7 @@ codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.do)\
 [Model 3 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.inp)\
 [Model 3 out
-file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out)\
+file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out)
 
 ### Joint model
 
@@ -1742,6 +1736,6 @@ codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/m%3Cbr%3Eodel4mi.do)
 [Model 4 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.inp)\
 [Model 4 out
-file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.out)\
+file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.out)
 
 (fin)
