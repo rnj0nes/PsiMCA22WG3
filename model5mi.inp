@@ -1,0 +1,76 @@
+TITLE: 
+  Variable List - 
+
+  tc : 
+  py : 
+  a1cspline : 
+  cov1 : female 
+  cov2 : lths 
+  cov3 : gths 
+  cov4 : spl_age1 
+  cov5 : spl_age2 
+  cov6 : spl_age3 
+  cov7 : spl_age4 
+  cov8 : cses_index cses_measures:Childhood SES index
+  cov9 : maxparented Maximum of rameduc and rafeduc
+  cov10 : couple Whether coupled or partnered
+  cov11 : usborn BORN IN THE U.S.
+  cov12 : cyrenter yrenter centered at 1995.846
+  cov13 : fullret Completely retired, from rsayret
+  cov14 : hi25 hitot minus 25,000, divided by 1000
+  cov15 : hinpova inpova: whether in poverty-w/inst      
+  cov16 : rbmi self-reported body mass index=kg/m2
+  cov17 : rshlt self-report of health
+  cov18 : c095 RATE EYESIGHT
+  cov19 : c103 RATE HEARING
+  cov20 : rcesd cesd score
+  cov21 : pastsmk 
+  cov22 : currsmk 
+  cov23 : rhibpe r ever had high blood pressure
+  cov24 : radla some diff-adls /0-5
+  cov25 : riadla some diff-iadls: w2 onwards /0-3
+  cov26 : rgrossa grossa: walk1/r,clim1,bed,bath/0-5     
+  cov27 : rmobila mobila: some diff-mobility /0-5        
+  cov28 : rlgmusa lgmusa: some diff-large muscle /0-4    
+  cov29 : riadlza iadlza: some diff-iadls: w2 onwards /0-5       
+  cov30 : rfinea finea: dime/eat/dress /0-3     
+  cov31 : rshltc shltc: change in self-reported hlth
+  cov32 : rdrink drink: r ever drinks any alcohol
+  cov33 : rlunge lunge: r ever had lung disease
+  cov34 : rstroke stroke: r ever had stroke
+  cov35 : rcancre 
+  cov36 : rarthre arthre: r ever had arthritis
+  cov37 : rconde conde: sum of conditions ever had
+  cov38 : routpt outpt: outpatient surgry, prv 2 yrs    
+  cov39 : rdentst dentst: dental visit, prv 2 yrs        
+  cov40 : rdrugs drugs: reg take rx, prv 2 yrs  
+  cov41 : rhomcar homcar: home hlth care, prv 2 yrs      
+  cov42 : rhsptim hsptim: # hospital stays, prv 2 yrs    
+  cov43 : rnrstim nrstim: # nurs home stays, prv 2 yrs   
+  cov44 : rhspnit hspnit: # nights in hosp, prv 2 yrs    
+  cov45 : rdoctim doctim: # doctor vists, prv 2 yrs      
+  cov46 : rnrsnit nrsnit: # nights in nurs home, prv 2 yrs       
+  cov47 : hatotb atotb: total all assets inc. 2nd hm--cross-wave        
+  cov48 : apoe4 Any APOE-E4 alleles
+  cov49 : cage0 
+  cov50 : int1 
+ 
+DATA: 
+  FILE = inpfiles.dat ; 
+ TYPE = imputation ;
+VARIABLE:
+  NAMES = 
+    tc py a1cspline cov1 cov2 cov3 cov4 cov5 cov6 cov7 cov8 cov9
+cov10 cov11 cov12 cov13 cov14 cov15 cov16 cov17 cov18 cov19 cov20 
+cov21 cov22 cov23 cov24 cov25 cov26 cov27 cov28 cov29 cov30 cov31 
+cov32 cov33 cov34 cov35 cov36 cov37 cov38 cov39 cov40 cov41 cov42 
+cov43 cov44 cov45 cov46 cov47 cov48 cov49 cov50 ; 
+  MISSING ARE ALL (-9999) ; 
+SURVIVAL = py ; 
+TIMECENSORED = tc (0 = NOT 1 = RIGHT) ; 
+ 
+ANALYSIS: 
+OUTPUT: 
+MODEL: 
+py on a1cspline cov1-cov50  ; 
+ 

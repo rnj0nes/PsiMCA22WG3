@@ -1,0 +1,368 @@
+% Joint Model
+% Rich Jones
+% `r format(Sys.Date(), format="%B %d %Y")`
+<body style="max-width: 48em;">
+</body>
+
+
+<!--
+global cwd "/Users/rnj/Library/CloudStorage/Dropbox/FH/FH2022/WG3/PsyMCA-WG3"
+cd $cwd
+markstatit jm-03-continuous_time_survival-LG-data-20230706.domd , strict keep
+-->
+
+# Overview
+
+This document summarizes analyses condicted for 2022 ΨMCA work group 3, focusing on the effect of blood sugar (HbA1c) in memory performance change over 10 years in Black or African-American participants the Health and Retirement Study (HRS). 
+
+The goal of this analysis was to estimate a joint model (a growth curve model with a survival model) to compare to a model that uses propensity score weighted analyses (Laura Gibbons is conducting those analyses). To build up to the joint model, I estimate: a (1) survival model in Stata to compare to a (2) survival model in Mplus, a (3) growth curve model, and finally a (4) joint model. Unconditional (i.e., no covariates) and conditional (i.e., with covariates) models are analyzed for all but the joint model (only a conditional joint model is estimated). The covariates used in the adjusted or conditional models are all of those factors that Laura used in generating the selection weights. 
+
+Missing data among the covariates were handled with multiple imputation. Laura Gibbons performed the imputation and provided the analytic data set. All analyses in this report report results based on 5 imputations. The descriptive table uses the non-imputed data.
+
+This analysis uses HRS data, but does not use sampling weights.
+
+## Summary of findings
+
+HbA1c (the spline version) is significantly related to risk of death (HR 1.12 [1.05, 1.19] per unit difference in HbA1c spline) in the unconditional model and this effect is attenuated (HR 1.07) when controlling for covariates but remains significant, including in the joint model. 
+
+HbA1c spline is not significantly related to *level* (i.e., intercept) and *slope* (change over 10 years follow-up) in memory performance, and this is true in the unconditional, conditional, and joint model. The point estimate suggests lower memory performance with higher HbA1c, and faster (i.e., more negative) slope with higher HbA1c, but we cannot rule out that the true effect is no effect given the sample size (confidence intervals include 0). The effect of HbA1c in intercept is relatively unchanged between the unconditional, conditional, and joint model. The effect of HbA1c in slope is about a half of the magnitude in the unconditional and joint models relative to the unconditional model. 
+
+The conditional and joint models are not appreciably different. Therefore, conditioning the growth model on survival did not influence how we assess the relationship between HbA1c and memory performance and change.
+
+Finally, the Cox model estimated with Stata and the continuous time survival model estimated with Mplus produce slightly different parameter estimates. I don't have an explanation for that, and therefore all of the results are somewhat tenuous. 
+
+# Contents
+
+1. [Overview](#overview)
+2. [Analysis](#analysis)
+   a. [Data and processing](#data-and-processing)
+   b. [Survival models](#survival-models)
+       i. [Continuous time survival with multiply imputed data, unconditional model in Stata](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-stata)
+       ii. [Continuous time survival with multiply imputed data, unconditional model in Mplus](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-mplus)
+    c. [Latent growth curve model](#latent-growth-curve-model)
+       i. [Unconditional, imputed data](#unconditional-imputed-data)
+       ii. [Conditional, imputed data](#conditional-imputed-data)
+       iii. [Joint model](#joint-model)
+3. [Summary table](#summary-table)
+4. [Sample descriptive table](#sample-descriptive-table)
+
+# Analysis
+
+## Call data
+
+Using LG's file `forsas230518.dta`.
+
+```s
+* chose variables for analysis
+use "forsas230518.dta" , clear
+gen _mi_miss=0
+gen _mi_id=0
+mi extract 0, clear
+tempfile foo
+gen m=_Imputation_
+cap drop _mi_miss
+cap drop _mi_id
+cap drop _mi_m 
+* keep if race==2 // Black or African-American (regardless of ethnicity)
+* keep if wg3awave~=. // if observed in our time window
+```
+
+
+```s
+* covariates used in generating weights 
+su ///
+   hba1c wg3 gender ///
+   ed3 /// i.ed3 
+   spl_age1-spl_age4 ///
+   cses_index maxparented couple usborn yrenter fullret ///
+   hi25 hinpova rbmi rshlt c095 c103 rcesd  ///
+   smoke3 /// i.smoke3 
+   rhibpe /*rhearte*/ radla riadla rgrossa rmobila rlgmusa ///
+   riadlza rfinea rshltc rdrink rlunge rstroke rcancre ///
+   rarthre rconde routpt rdentst rdrugs rhomcar rhsptim ///
+   rnrstim rhspnit rdoctim rnrsnit rnhmliv hatotb ///
+   hacohort /// i.hacohort 
+   apoe4 ///
+   gender /// i.gender#c.age0 c.age0#c.wg3 i.gender#c.wg3 i.apoe4#c.wg3 i.ed3#c.wg3
+   if missing(hba1c)~=1 & missing(rtr20)~=1
+
+su age0 if wg3awave==0
+gen cage0=age0-`r(mean)'
+*'
+gen female=gender==2 if missing(gender)~=1
+
+gen int1 = cage0*female 
+*# None of the wg3awave-interaction covariates are going 
+*# to Rich's analysis because I am only taking baseline covariates
+gen int2 = cage0*wg3awave 
+gen int3 = female*wg3awave 
+gen int4 = apoe4*wg3awave
+gen int5 = (ed3==0)*wg3awave 
+gen int6 = (ed3==2)*wg3awave 
+
+gen lths = ed3==0
+gen gths = ed3==2
+
+local covlist "female lths gths "
+local covlist "`covlist' spl_age1-spl_age4"
+local covlist "`covlist' cses_index maxparented couple usborn"
+center yrenter if wg3awave==0
+local covlist "`covlist' cyrenter fullret hi25 hinpova rbmi rshlt c095 c103 rcesd " 
+gen pastsmk = smoke3==1 if missing(smoke3)~=1
+gen currsmk = smoke3==2 if missing(smoke3)~=1
+local covlist "`covlist' pastsmk currsmk"
+local covlist "`covlist' rhibpe "
+*** local covlist "`covlist' rhearte" 
+local covlist "`covlist' radla riadla rgrossa rmobila rlgmusa"
+local covlist "`covlist' riadlza rfinea rshltc rdrink rlunge rstroke rcancre" 
+local covlist "`covlist' rarthre rconde routpt rdentst rdrugs rhomcar rhsptim"
+local covlist "`covlist' rnrstim rhspnit rdoctim rnrsnit  hatotb " // rnhmliv <- a constant at baseline 
+
+/* hacohort is not imputed (always missing when _Imputation_>0)
+gen cohort01 = hacohort==1 | hacohort==0
+gen cohort2 = hacohort==2
+gen cohort4 = hacohort==4
+gen cohort5 = hacohort==5 
+
+local covlist "`covlist' cohort01 cohort2 cohort4 cohort5"
+*/
+
+
+local covlist "`covlist' apoe4 int1"
+
+** Process data
+
+cap drop k
+gen k=1
+
+* forward fill hba1c
+gsort _Imputation_ id wg3awave
+egen iid=group(_Imputation_ id)
+xfill hba1c , i(iid)
+
+* everdead
+preserve
+keep _Imputation_ id diednext 
+collapse (max) diednext , by(_Imputation_ id)
+rename diednext everdead
+* Everdead is only ever 0 and 1 in _Imputation_ 0
+keep if _Imputation_ == 0
+keep id everdead 
+tempfile everdead 
+save `everdead'
+*'
+restore 
+merge m:1 id using `everdead'
+*'
+table _Imputation_ everdead
+
+
+tempfile masterdata
+save `masterdata' , replace 
+*'
+* longitudinal data
+keep _Imputation_ id wg3awave rtr20 diednext everdead 
+tempfile longdata_long
+save `longdata_long' , replace 
+*'
+reshape wide  rtr20 diednext , i(_Imputation_ id everdead) j(wg3awave)
+tempfile longdata_wide 
+save `longdata_wide' 
+*'
+* Covariates 
+use `masterdata' , clear 
+*'
+keep if wg3awave ==0
+keep _Imputation_ id hba1c `covset' 
+*'
+tempfile covariates_baseline 
+save `covariates_baseline'
+* wide analysis file 
+*'
+use `longdata_wide' , clear
+*' 
+merge 1:1 _Imputation_ id using `covariates_baseline' 
+
+forvalues i=1/6 {
+	local j=`i'-1
+	rename diednext`j' dead`i'
+   *'
+}
+replace everdead=0 if everdead~=1
+
+* person years of follow-up
+gen     py = 14 if missing(everdead)~=1
+replace py = 11 if dead6==1
+replace py = 9 if dead5==1
+replace py = 7 if dead4==1
+replace py = 5 if dead3==1
+replace py = 3 if dead2==1
+replace py = 1 if dead1==1
+
+
+local knotis = 6.5
+gen a1cspline = 0 if missing(hba1c)~=1
+replace a1cspline = max(0,hba1c-`knotis')
+*'
+plot a1cspline hba1c
+
+
+local covset "a1cspline `covlist'"
+
+* In Mplus, we use a variable TIMECENSORED
+* to indicate whether or not an event occurred.
+* The tricky thing is, time is censored for people
+* who DID NOT experience the event, and it is
+* not censored for people who DID experience the event.
+gen tc=0 // initialize to 0
+replace tc=1 if everdead==0
+
+
+* mi set 
+
+tempfile foo
+gen m=_Imputation_
+cap drop _mi_miss
+cap drop _mi_id
+cap drop _mi_m 
+save `foo'
+use `foo'
+mi import flong , m(m) id(id)
+
+cap drop _merge 
+merge 1:1  id _Imputation_ using covariates.dta 
+
+mi stset py, failure(everdead) 
+gen iid=_mi_id
+save usingdata.dta , replace 
+
+```
+
+## Survival models
+### Continuous time Survival with multiply imputed data, unconditional model in Stata
+
+```s
+use usingdata.dta , clear 
+* continuous time survival, multiply imputed data
+mi estimate : stcox a1cspline 
+*'
+mat B=e(b_mi)
+mat B=B'
+mat list B
+di exp(B[1,1])
+```
+
+
+### Continuous time Survival with multiply imputed data, unconditional model in Mplus
+```s
+include model1.do 
+```
+
+
+## Latent growth curve model
+### Unconditional, imputed data
+```s
+include model2.do 
+```
+
+### Conditional, imputed data
+```s
+include model3.do 
+```
+
+### Joint model
+```s
+include model4.do 
+```
+
+<!-- Survival model with covariates in Mplus and multiply imputed data -->
+```s/
+qui include model5.do 
+```
+
+# Summary Table 
+
+<!-- see cell.ado -->
+
+```s/
+cell , model(2) effect(i_on_a1cspline) local(g11)
+cell , model(3) effect(i_on_a1cspline) local(g21)
+cell , model(4) effect(i_on_a1cspline) local(g31)
+
+cell , model(2) effect(intercepts_i) local(g14)
+cell , model(3) effect(intercepts_i) local(g24)
+cell , model(4) effect(intercepts_i) local(g34)
+
+cell , model(2) effect(intercepts_s) local(g12)
+cell , model(3) effect(intercepts_s) local(g22)
+cell , model(4) effect(intercepts_s) local(g32)
+
+cell , model(2) effect(s_on_a1cspline) local(g13)
+cell , model(3) effect(s_on_a1cspline) local(g23)
+cell , model(4) effect(s_on_a1cspline) local(g33)
+
+cell , model(1) effect(py_on_a1cspline) local(g15) exp
+cell , model(5) effect(py_on_a1cspline) local(g25) exp 
+cell , model(4) effect(py_on_a1cspline) local(g35) exp 
+
+cap program drop cell
+```
+
+
+
+|Model        |Unconditional   |           |Conditional     |           |Joint model,conditional||
+|-------------|--|--|--|--|--|--|
+|**Parameter**            |**Est (95% CI)**|**p-value**  |**Est (95% CI)**|**p-value** |**Est (95% CI)** |**p-value** |
+|**_Growth curve parameters_**|||||||
+|Intercept                |`s "`cellg14'"` |`s "`pg14'"` |`s "`cellg24'"` |`s "`pg24'"`| `s "`cellg34'"` |`s "`pg34'"`|
+|Slope (conditional mean) |`s "`cellg12'"` |`s "`pg12'"` |`s "`cellg22'"` |`s "`pg22'"`| `s "`cellg32'"` |`s "`pg32'"`|
+|**_HbA1c effects in growth curve_**|||||||
+|HbA1c spline in intercept|`s "`cellg11'"` |`s "`pg11'"` |`s "`cellg21'"` |`s "`pg21'"`| `s "`cellg31'"` |`s "`pg31'"`|
+|HbA1c spline in slope    |`s "`cellg13'"` |`s "`pg13'"` |`s "`cellg23'"` |`s "`pg23'"`| `s "`cellg33'"` |`s "`pg33'"`|
+|**_HbA1c effects in survival_**|||||||
+|Hazard ratio per unit increase in HbA1c spline|`s "`cellg15'"` |`s "`pg15'"` |`s "`cellg25'"` |`s "`pg25'"`| `s "`cellg35'"` |`s "`pg35'"`|
+
+
+# Summary Table
+
+Tables of participant characteristics are available as PDFs, which can be read into modern versions of Word and edited.
+
+
+```s/
+use usingdata.dta , clear , if _Imputation_==0
+la var py "Person years of follow-up"
+la var rtr200 "[rtr200] Word list memory performance wg3 baseline"
+* variables in covset 
+
+local i=0
+
+local set`++i'is "Participant sociodemographics"
+local set`i'are "spl_age1 female lths gths cses_index hinpova hatotb hi25 fullret maxparented couple usborn cyrenter"
+local set`i'iqr "hatotb hi25"
+
+local set`++i'is "Participant personal characteristics"
+local set`i'are "rbmi apoe4" 
+
+local set`++i'is "Participant self-reported health and functioning"
+local set`i'are "rshlt rcesd radla riadla riadlza rgrossa rmobila rlgmusa rfinea rshltc"
+
+local set`++i'is "Participant health and disease-related characteristics"
+local set`i'are "rhibpe rlunge rstroke rcancre rarthre rconde"
+
+local set`++i'is "Participant treatments and services utilization characteristics"
+local set`i'are "routpt rdentst rdrugs rhomcar rhsptim rnrstim rhspnit rdoctim rnrsnit"
+local set`i'iqr "rhsptim rhspnit rdoctim rnrsnit"
+
+local set`++i'is "Participant reported sensory impairment"
+local set`i'are "c095 c103" 
+
+local set`++i'is "Participant self-reported health behaviors"
+local set`i'are "pastsmk currsmk rdrink" 
+
+forvalues j=1/`i' {
+    table1 `set`j'are' , iqr(`set`j'iqr') missing inashell title("Table `j'. `set`j'is'") file(table`j')
+}
+```
+
+
+(fin)

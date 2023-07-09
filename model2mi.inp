@@ -1,0 +1,25 @@
+TITLE: 
+  Variable List - 
+
+  rtr200 : 0 rtr20
+  rtr201 : 1 rtr20
+  rtr202 : 2 rtr20
+  rtr203 : 3 rtr20
+  rtr204 : 4 rtr20
+  rtr205 : 5 rtr20
+  a1cspline : 
+ 
+DATA: 
+  FILE = inpfiles.dat ; 
+ TYPE = imputation ;
+VARIABLE:
+  NAMES = 
+    rtr200 rtr201 rtr202 rtr203 rtr204 rtr205 a1cspline ; 
+  MISSING ARE ALL (-9999) ; 
+ANALYSIS: 
+   ESTIMATOR = MLR ;
+OUTPUT: 
+MODEL: 
+i s | rtr200@0 rtr201@2 rtr202@4 rtr203@6 rtr204@8 rtr205@10 ; 
+i s on a1cspline  ; 
+ 

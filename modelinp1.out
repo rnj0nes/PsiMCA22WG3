@@ -1,0 +1,363 @@
+Mplus VERSION 8.10 (Mac)
+MUTHEN & MUTHEN
+07/07/2023   9:26 AM
+
+INPUT INSTRUCTIONS
+
+  DATA: FILE = inpfiles.dat ;
+  TYPE = imputation ;
+  VARIABLE: NAMES = tc py a1cspline ;
+  MISSING ARE ALL (-9999) ;
+  SURVIVAL = py ;
+  TIMECENSORED = tc (0 = NOT 1 = RIGHT) ;
+  MODEL: py ON a1cspline ;
+
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1470
+
+Number of replications
+    Requested                                                    5
+    Completed                                                    5
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Time-to-event (survival)
+
+    Non-parametric
+     PY
+
+Observed independent variables
+   A1CSPLIN
+
+Variables with special functions
+
+  Time-censoring variables
+   TC
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Base Hazard                                                    OFF
+Cholesky                                                       OFF
+
+Input data file(s)
+  Multiple data files from
+    inpfiles.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 5 data sets.
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              A1CSPLIN
+              ________
+                0.307
+
+
+           Covariances
+              A1CSPLIN
+              ________
+ A1CSPLIN       0.807
+
+
+           Correlations
+              A1CSPLIN
+              ________
+ A1CSPLIN       1.000
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        1
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                             -2032.323
+        Std Dev                              0.000
+        Number of successful computations        5
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        -2032.323      -2032.323
+           0.980       1.000        -2032.323      -2032.323
+           0.950       0.800        -2032.323      -2032.323
+           0.900       0.800        -2032.323      -2032.323
+           0.800       0.800        -2032.323      -2032.323
+           0.700       0.800        -2032.323      -2032.323
+           0.500       0.800        -2032.323      -2032.323
+           0.300       0.000        -2032.323      -2032.323
+           0.200       0.000        -2032.323      -2032.323
+           0.100       0.000        -2032.323      -2032.323
+           0.050       0.000        -2032.323      -2032.323
+           0.020       0.000        -2032.323      -2032.323
+           0.010       0.000        -2032.323      -2032.323
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                              4066.646
+        Std Dev                              0.000
+        Number of successful computations        5
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         4066.646       4066.646
+           0.980       1.000         4066.646       4066.646
+           0.950       1.000         4066.646       4066.646
+           0.900       1.000         4066.646       4066.646
+           0.800       1.000         4066.646       4066.646
+           0.700       1.000         4066.646       4066.646
+           0.500       0.200         4066.646       4066.646
+           0.300       0.200         4066.646       4066.646
+           0.200       0.200         4066.646       4066.646
+           0.100       0.200         4066.646       4066.646
+           0.050       0.200         4066.646       4066.646
+           0.020       0.000         4066.646       4066.646
+           0.010       0.000         4066.646       4066.646
+
+    Bayesian (BIC)
+
+        Mean                              4071.939
+        Std Dev                              0.000
+        Number of successful computations        5
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         4071.939       4071.939
+           0.980       1.000         4071.939       4071.939
+           0.950       1.000         4071.939       4071.939
+           0.900       1.000         4071.939       4071.939
+           0.800       1.000         4071.939       4071.939
+           0.700       1.000         4071.939       4071.939
+           0.500       0.200         4071.939       4071.939
+           0.300       0.200         4071.939       4071.939
+           0.200       0.200         4071.939       4071.939
+           0.100       0.200         4071.939       4071.939
+           0.050       0.200         4071.939       4071.939
+           0.020       0.000         4071.939       4071.939
+           0.010       0.000         4071.939       4071.939
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                              4068.763
+        Std Dev                              0.000
+        Number of successful computations        5
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         4068.763       4068.763
+           0.980       1.000         4068.763       4068.763
+           0.950       1.000         4068.763       4068.763
+           0.900       1.000         4068.763       4068.763
+           0.800       1.000         4068.763       4068.763
+           0.700       1.000         4068.763       4068.763
+           0.500       0.200         4068.763       4068.763
+           0.300       0.200         4068.763       4068.763
+           0.200       0.200         4068.763       4068.763
+           0.100       0.200         4068.763       4068.763
+           0.050       0.200         4068.763       4068.763
+           0.020       0.000         4068.763       4068.763
+           0.010       0.000         4068.763       4068.763
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ PY         ON
+    A1CSPLINE          0.111      0.032      3.500      0.000      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.100E+01
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1               0             0             0
+ PY                 0             0             0
+ A1CSPLIN           0             0             0
+
+
+           THETA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1               0
+ PY                 0             0
+ A1CSPLIN           0             0             0
+
+
+           ALPHA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+                    0             0             0
+
+
+           BETA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1               0             0             0
+ PY                 0             0             1
+ A1CSPLIN           0             0             0
+
+
+           PSI
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1               0
+ PY                 0             0
+ A1CSPLIN           0             0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1           1.000         0.000         0.000
+ PY             0.000         1.000         0.000
+ A1CSPLIN       0.000         0.000         1.000
+
+
+           THETA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1           0.000
+ PY             0.000         0.000
+ A1CSPLIN       0.000         0.000         0.000
+
+
+           ALPHA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+              -20.000         0.000         0.000
+
+
+           BETA
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1           0.000         0.000         0.000
+ PY             0.000         0.000         0.000
+ A1CSPLIN       0.000         0.000         0.000
+
+
+           PSI
+              PY#1          PY            A1CSPLIN
+              ________      ________      ________
+ PY#1           0.000
+ PY             0.000         0.000
+ A1CSPLIN       0.000         0.000         0.404
+
+
+     Beginning Time:  09:26:19
+        Ending Time:  09:26:19
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2023 Muthen & Muthen

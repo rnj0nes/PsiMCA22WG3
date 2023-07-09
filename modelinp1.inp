@@ -1,0 +1,8 @@
+DATA: FILE = inpfiles.dat ;
+TYPE = imputation ;
+VARIABLE: NAMES = tc py a1cspline ;
+MISSING ARE ALL (-9999) ;
+SURVIVAL = py ;
+TIMECENSORED = tc (0 = NOT 1 = RIGHT) ;
+MODEL: py ON a1cspline ;
+
