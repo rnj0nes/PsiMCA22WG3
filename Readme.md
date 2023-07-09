@@ -1732,7 +1732,7 @@ file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out)
 ### Joint model
 
 [Model 4 do file (runmplus
-codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/m%3Cbr%3Eodel4mi.do)
+codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.do)\
 [Model 4 inp
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.inp)\
 [Model 4 out
