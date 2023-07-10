@@ -724,7 +724,7 @@ body {
 <header id="title-block-header">
 <h1 class="title">Joint Model</h1>
 <p class="author">Rich Jones</p>
-<p class="date">July 09 2023</p>
+<p class="date">July 10 2023</p>
 </header>
 <body style="max-width: 48em;">
 </body>
@@ -732,9 +732,10 @@ body {
 global cwd "/Users/rnj/Library/CloudStorage/Dropbox/FH/FH2022/WG3/PsyMCA-WG3"
 cd $cwd
 markstatit jm-03-continuous_time_survival-LG-data-20230706.domd , strict keep
+!/usr/local/bin/pandoc -s "jm-03-continuous_time_survival-LG-data-20230706.html" -o "README.md"
 -->
 <h1 id="overview">Overview</h1>
-<p>This document summarizes analyses condicted for 2022 ΨMCA work group 3, focusing on the effect of blood sugar (HbA1c) in memory performance change over 10 years in Black or African-American participants the Health and Retirement Study (HRS).</p>
+<p>This document summarizes analyses conducted for 2022 ΨMCA work group 3, focusing on the effect of blood sugar (HbA1c) in memory performance change over 10 years in Black or African-American participants the Health and Retirement Study (HRS).</p>
 <p>The goal of this analysis was to estimate a joint model (a growth curve model with a survival model) to compare to a model that uses propensity score weighted analyses (Laura Gibbons is conducting those analyses). To build up to the joint model, I estimate: a (1) survival model in Stata to compare to a (2) survival model in Mplus, a (3) growth curve model, and finally a (4) joint model. Unconditional (i.e., no covariates) and conditional (i.e., with covariates) models are analyzed for all but the joint model (only a conditional joint model is estimated). The covariates used in the adjusted or conditional models are all of those factors that Laura used in generating the selection weights.</p>
 <p>Missing data among the covariates were handled with multiple imputation. Laura Gibbons performed the imputation and provided the analytic data set. All analyses in this report report results based on 5 imputations. The descriptive table uses the non-imputed data.</p>
 <p>This analysis uses HRS data, but does not use sampling weights.</p>
@@ -982,7 +983,7 @@ cyrenter generated as yrenter centered at 1995.846, with 0 missing values, the m
 . tempfile everdead 
 
 . save `everdead'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000003 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000003 saved as .dta format
 
 . *'
 . restore 
@@ -1016,8 +1017,8 @@ on_       │     0      1
 . tempfile masterdata
 
 . save `masterdata' , replace 
-(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 not found)
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 saved as .dta format
+(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000004 not found)
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000004 saved as .dta format
 
 . *'
 . * longitudinal data
@@ -1026,8 +1027,8 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 saved as .
 . tempfile longdata_long
 
 . save `longdata_long' , replace 
-(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000005 not found)
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000005 saved as .dta format
+(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000005 not found)
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000005 saved as .dta format
 
 . *'
 . reshape wide  rtr20 diednext , i(_Imputation_ id everdead) j(wg3awave)
@@ -1046,7 +1047,7 @@ xij variables:
 . tempfile longdata_wide 
 
 . save `longdata_wide' 
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000006 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000006 saved as .dta format
 
 . *'
 . * Covariates 
@@ -1062,7 +1063,7 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000006 saved as .
 . tempfile covariates_baseline 
 
 . save `covariates_baseline'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000007 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000007 saved as .dta format
 
 . * wide analysis file 
 . *'
@@ -1176,7 +1177,7 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000007 saved as .
 . cap drop _mi_m 
 
 . save `foo'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000008 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000008 saved as .dta format
 
 . use `foo'
 
@@ -2052,7 +2053,11 @@ log suppressed
 </tr>
 </tbody>
 </table>
-<h1 id="summary-table-1">Summary Table</h1>
+<pre class='stata'>(rdoc output file is summary_table.md)
+
+(rdoc output written to summary_table.md)
+</pre>
+<h1 id="sample-descriptive-table">Sample descriptive table</h1>
 <p>Tables of participant characteristics are available as PDFs, which can be read into modern versions of Word and edited.</p>
 <pre class='stata'>  2. table1 `set`j'are' , iqr(`set`j'iqr') missing inashell title("Table `j'. `set`j'is'") file(table`j')
   3. }
@@ -2085,8 +2090,8 @@ inpova: whether in poverty-w inst       [n (%)]
 0 0.hh inc above pov thresh                                                            1140  (77.6)               
 1 1.hh inc below pov thresh                                                             330  (22.4)               
                                                                                                                   
-atotb: total all assets inc. 2nd hm--cross-wave         [Median (P'tile 25-75)]     51600.0  [1800.0-159800.0] [-1.4e+05-1.5e+0
-
+atotb: total all assets inc. 2nd hm--cross-wave         [Median (P'tile 25-75)]     51600.0  [1800.0-159800.0] [-1.4e+05-1.5e+07]
+                                                                                                                  
 hitot minus 25 000  divided by 1000 [Median (P'tile 25-75)]                            -3.0  [-13.6-20.6] [-25.0-1544.9]
                                                                                                                   
 Completely retired  from rsayret [n (%)]                                                                          
@@ -2324,7 +2329,7 @@ doctim: No. doctor vists  prv 2 yrs       [Median (P'tile 25-75)]               
 nrsnit: No. nights in nurs home  prv 2 yrs        [Median (P'tile 25-75)]         0.0  [0.0-0.0]  [0.0-180.0]
                                                                                                             
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
-Notes:  3 missing on routpt, 1 missing on rdentst, 1 missing on rdrugs, 2 missing on rhomcar, 9 missing on rhsptim, 1 missing o
+Notes:  3 missing on routpt, 1 missing on rdentst, 1 missing on rdrugs, 2 missing on rhomcar, 9 missing on rhsptim, 1 missing on rnrstim, 14 missing on rhspnit, 86 missing on rdoctim,
 
 table1 results are stored in mata workspace in matrix 'results' , and in 
 
@@ -2397,20 +2402,20 @@ table1 results are stored in mata workspace in matrix 'results' , and in
 </pre>
 <h1 id="detailed-results-and-program-files">Detailed results and program files</h1>
 <h2 id="pdf-tables-on-github">PDF Tables on GitHub</h2>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table1.pdf">Table 1 Participant sociodemographics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table2.pdf">Table 2 Participant personal characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table3.pdf">Table 3 Participant self-reported health and functioning</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table4.pdf">Table 4 Participant health and disease-related characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table5.pdf">Table 5 Participant treatments and services utilization characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table6.pdf">Table 6 Participant reported sensory impairment</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf">Table 7 Participant self-reported health behaviors</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table1.pdf">Table 1 Participant sociodemographics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table2.pdf">Table 2 Participant personal characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table3.pdf">Table 3 Participant self-reported health and functioning</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table4.pdf">Table 4 Participant health and disease-related characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table5.pdf">Table 5 Participant treatments and services utilization characteristics</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table6.pdf">Table 6 Participant reported sensory impairment</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf">Table 7 Participant self-reported health behaviors</a></p>
 <h2 id="code-files-on-github">Code files on GitHub</h2>
 <h3 id="master">Master</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.domd">This domd file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.html">This domd file, HTML output</a></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.domd">This domd file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.html">This domd file HTML output</a></p>
 <h3 id="continuous-time-survival-unconditional">Continuous time survival, unconditional</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.inp">Model 1 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.out">Model 1 out file</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.inp">Model 1 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.out">Model 1 out file</a></p>
 <h3 id="continuous-time-survival-conditional">Continuous time survival, conditional</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5.do">Model 5 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.inp">Model 5 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.out">Model 5 out file</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5.do">Model 5 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.inp">Model 5 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.out">Model 5 out file</a></p>
 <h3 id="latent-growth-curve-model-unconditional">Latent growth curve model, unconditional</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2.do">Model 2 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.inp">Model 2 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.out">Model 2 out file</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2.do">Model 2 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.inp">Model 2 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.out">Model 2 out file</a></p>
 <h3 id="latent-growth-curve-model-conditional">Latent growth curve model, conditional</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.do">Model 3 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.inp">Model 3 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out">Model 3 out file</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.do">Model 3 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.inp">Model 3 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out">Model 3 out file</a></p>
 <h3 id="joint-model-1">Joint model</h3>
-<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/m%3Cbr%3Eodel4mi.do">Model 4 do file (runmplus codes)</a> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.inp">Model 4 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.out">Model 4 out file</a><br></p>
+<p><a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.do">Model 4 do file (runmplus codes)</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.inp">Model 4 inp file</a><br> <a href="https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.out">Model 4 out file</a></p>
 <p>(fin)</p>
 </body>
 </html>

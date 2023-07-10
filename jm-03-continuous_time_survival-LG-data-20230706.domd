@@ -6,14 +6,22 @@
 
 
 <!--
+* the global, cd, and marstatit commands are run to excute this file and generate
+* html report. 
+* --------------------------------
 global cwd "/Users/rnj/Library/CloudStorage/Dropbox/FH/FH2022/WG3/PsyMCA-WG3"
 cd $cwd
 markstatit jm-03-continuous_time_survival-LG-data-20230706.domd , strict keep
+* --------------------------------
+* The shell pandoc command converts the resulting HTML file to markdown (as README.md)
+* to post to GitHub. But remember to replace the summary table in README.md must be 
+* replaced with summary_table.md 
+!/usr/local/bin/pandoc -s "jm-03-continuous_time_survival-LG-data-20230706.html" -o "README.md"
 -->
 
 # Overview
 
-This document summarizes analyses condicted for 2022 ΨMCA work group 3, focusing on the effect of blood sugar (HbA1c) in memory performance change over 10 years in Black or African-American participants the Health and Retirement Study (HRS). 
+This document summarizes analyses conducted for 2022 ΨMCA work group 3, focusing on the effect of blood sugar (HbA1c) in memory performance change over 10 years in Black or African-American participants the Health and Retirement Study (HRS). 
 
 The goal of this analysis was to estimate a joint model (a growth curve model with a survival model) to compare to a model that uses propensity score weighted analyses (Laura Gibbons is conducting those analyses). To build up to the joint model, I estimate: a (1) survival model in Stata to compare to a (2) survival model in Mplus, a (3) growth curve model, and finally a (4) joint model. Unconditional (i.e., no covariates) and conditional (i.e., with covariates) models are analyzed for all but the joint model (only a conditional joint model is estimated). The covariates used in the adjusted or conditional models are all of those factors that Laura used in generating the selection weights. 
 
@@ -45,6 +53,7 @@ Finally, the Cox model estimated with Stata and the continuous time survival mod
        iii. [Joint model](#joint-model)
 3. [Summary table](#summary-table)
 4. [Sample descriptive table](#sample-descriptive-table)
+5. [Detailed results and program files](#detailed-results-and-program-files)
 
 # Analysis
 
@@ -322,10 +331,39 @@ cap program drop cell
 |**_HbA1c effects in survival_**|||||||
 |Hazard ratio per unit increase in HbA1c spline|`s "`cellg15'"` |`s "`pg15'"` |`s "`cellg25'"` |`s "`pg25'"`| `s "`cellg35'"` |`s "`pg35'"`|
 
+```s/
+* I needed to make this copy of the summary table because 
+* the Pandoc conversion of the HTML result file for this report
+* back to markdown, which I create to place a report on 
+* GitHub, did not convert the table correctly. 
+cap erase summary_table.md
+rdoc init summary_table.md
+r |Model        |Unconditional   |           |Conditional     |           |Joint model,conditional||
+r |-------------|--|--|--|--|--|--|
+r |**Parameter**            |**Est (95% CI)**|**p-value**  |**Est (95% CI)**|**p-value** |**Est (95% CI)** |**p-value** |
+r |**_Growth curve parameters_**|||||||
+r |Intercept                |`s "`cellg14'"` |`s "`pg14'"` |`s "`cellg24'"` |`s "`pg24'"`| `s "`cellg34'"` |`s "`pg34'"`|
+r |Slope (conditional mean) |`s "`cellg12'"` |`s "`pg12'"` |`s "`cellg22'"` |`s "`pg22'"`| `s "`cellg32'"` |`s "`pg32'"`|
+r |**_HbA1c effects in growth curve_**|||||||
+r |HbA1c spline in intercept|`s "`cellg11'"` |`s "`pg11'"` |`s "`cellg21'"` |`s "`pg21'"`| `s "`cellg31'"` |`s "`pg31'"`|
+r |HbA1c spline in slope    |`s "`cellg13'"` |`s "`pg13'"` |`s "`cellg23'"` |`s "`pg23'"`| `s "`cellg33'"` |`s "`pg33'"`|
+r |**_HbA1c effects in survival_**|||||||
+r |Hazard ratio per unit increase in HbA1c spline|`s "`cellg15'"` |`s "`pg15'"` |`s "`cellg25'"` |`s "`pg25'"`| `s "`cellg35'"` |`s "`pg35'"`|
+rdoc close 
+cap erase foo.md 
+cap erase goo.md 
+filefilter summary_table.md foo.md , from("`s") to("")
+cap erase summary_table.md
+filefilter foo.md goo.md , from("`") to("")
+filefilter goo.md summary_table.md , from("\Q") to("")
+cap erase foo.md 
+cap erase goo.md 
+```
 
-# Summary Table
+# Sample descriptive table
 
 Tables of participant characteristics are available as PDFs, which can be read into modern versions of Word and edited.
+
 
 
 ```s/
@@ -363,6 +401,48 @@ forvalues j=1/`i' {
     table1 `set`j'are' , iqr(`set`j'iqr') missing inashell title("Table `j'. `set`j'is'") file(table`j')
 }
 ```
+
+# Detailed results and program files
+
+## PDF Tables on GitHub 
+[Table 1 `s "`set1is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table1.pdf)<br>
+[Table 2 `s "`set2is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table2.pdf)<br>
+[Table 3 `s "`set3is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table3.pdf)<br>
+[Table 4 `s "`set4is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table4.pdf)<br>
+[Table 5 `s "`set5is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table5.pdf)<br>
+[Table 6 `s "`set6is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table6.pdf)<br>
+[Table 7 `s "`set7is'"`](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf)
+
+## Code files on GitHub
+### Master
+[This domd file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.domd)<br>
+[This domd file HTML output](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.html)
+
+
+### Continuous time survival, unconditional
+[Model 1 inp file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.inp)<br>
+[Model 1 out file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/modelinp1.out)
+
+### Continuous time survival, conditional
+[Model 5 do file (runmplus codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5.do)<br>
+[Model 5 inp file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.inp)<br>
+[Model 5 out file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model5mi.out)
+
+### Latent growth curve model, unconditional
+[Model 2 do file (runmplus codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2.do)<br>
+[Model 2 inp file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.inp)<br>
+[Model 2 out file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model2mi.out)
+
+### Latent growth curve model, conditional
+[Model 3 do file (runmplus codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.do)<br>
+[Model 3 inp file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.inp)<br>
+[Model 3 out file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model3mi.out)
+
+### Joint model
+[Model 4 do file (runmplus codes)](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.do)<br>
+[Model 4 inp file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.inp)<br>
+[Model 4 out file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/model4mi.out)
+
 
 
 (fin)

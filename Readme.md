@@ -7,7 +7,7 @@ viewport: width=device-width, initial-scale=1.0, user-scalable=yes
 
 Rich Jones
 
-July 09 2023
+July 10 2023
 
 # Overview
 
@@ -65,24 +65,29 @@ the results are somewhat tenuous.
 
 # Contents
 
-1.  [Overview](#overview)
-2.  [Analysis](#analysis)
-    a.  [Data and processing](#data-and-processing)
-    b.  [Survival models](#survival-models)
-        i.  [Continuous time survival with multiply imputed data,
-            unconditional model in
-            Stata](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-stata)
-        ii. [Continuous time survival with multiply imputed data,
-            unconditional model in
-            Mplus](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-mplus)
-    c.  [Latent growth curve model](#latent-growth-curve-model)
-        i.  [Unconditional, imputed data](#unconditional-imputed-data)
-        ii. [Conditional, imputed data](#conditional-imputed-data)
-        iii. [Joint model](#joint-model)
-3.  [Summary table](#summary-table)
-4.  [Sample descriptive table](#sample-descriptive-table)
-5.  [Detailed results and program
-    files](#detailed-results-and-program-files)
+- [Overview](#overview)
+  - [Summary of findings](#summary-of-findings)
+- [Contents](#contents)
+- [Analysis](#analysis)
+  - [Call data](#call-data)
+  - [Survival models](#survival-models)
+    - [Continuous time Survival with multiply imputed data, unconditional model in Stata](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-stata)
+    - [Continuous time Survival with multiply imputed data, unconditional model in Mplus](#continuous-time-survival-with-multiply-imputed-data-unconditional-model-in-mplus)
+  - [Latent growth curve model](#latent-growth-curve-model)
+    - [Unconditional, imputed data](#unconditional-imputed-data)
+    - [Conditional, imputed data](#conditional-imputed-data)
+    - [Joint model](#joint-model)
+- [Summary Table](#summary-table)
+- [Sample descriptive table](#sample-descriptive-table)
+- [Detailed results and program files](#detailed-results-and-program-files)
+  - [PDF Tables on GitHub](#pdf-tables-on-github)
+  - [Code files on GitHub](#code-files-on-github)
+    - [Master](#master)
+    - [Continuous time survival, unconditional](#continuous-time-survival-unconditional)
+    - [Continuous time survival, conditional](#continuous-time-survival-conditional)
+    - [Latent growth curve model, unconditional](#latent-growth-curve-model-unconditional)
+    - [Latent growth curve model, conditional](#latent-growth-curve-model-conditional)
+    - [Joint model](#joint-model-1)
 
 # Analysis
 
@@ -307,7 +312,7 @@ cyrenter generated as yrenter centered at 1995.846, with 0 missing values, the m
 . tempfile everdead 
 
 . save `everdead'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000003 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000003 saved as .dta format
 
 . *'
 . restore 
@@ -341,8 +346,8 @@ on_       │     0      1
 . tempfile masterdata
 
 . save `masterdata' , replace 
-(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 not found)
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 saved as .dta format
+(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000004 not found)
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000004 saved as .dta format
 
 . *'
 . * longitudinal data
@@ -351,8 +356,8 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000004 saved as .
 . tempfile longdata_long
 
 . save `longdata_long' , replace 
-(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000005 not found)
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000005 saved as .dta format
+(file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000005 not found)
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000005 saved as .dta format
 
 . *'
 . reshape wide  rtr20 diednext , i(_Imputation_ id everdead) j(wg3awave)
@@ -371,7 +376,7 @@ xij variables:
 . tempfile longdata_wide 
 
 . save `longdata_wide' 
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000006 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000006 saved as .dta format
 
 . *'
 . * Covariates 
@@ -387,7 +392,7 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000006 saved as .
 . tempfile covariates_baseline 
 
 . save `covariates_baseline'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000007 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000007 saved as .dta format
 
 . * wide analysis file 
 . *'
@@ -501,7 +506,7 @@ file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000007 saved as .
 . cap drop _mi_m 
 
 . save `foo'
-file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_47104.000008 saved as .dta format
+file /var/folders/lq/w3m6z0dj41ngkbbc0204xb7m0000gp/T//S_00831.000008 saved as .dta format
 
 . use `foo'
 
@@ -1287,39 +1292,20 @@ log suppressed
 
 # Summary Table
 
-  --------------------------------------------------------------------------------------------------------------------------------
-  Model                                Unconditional                 Conditional                 Joint               
-                                                                                                 model,conditional   
-  ------------------------------------ --------------- ------------- ------------- ------------- ------------------- -------------
-  **Parameter**                        **Est (95%      **p-value**   **Est (95%    **p-value**   **Est (95% CI)**    **p-value**
-                                       CI)**                         CI)**                                           
+|Model        |Unconditional   |           |Conditional     |           |Joint model,conditional||
+|-------------|--|--|--|--|--|--|
+|**Parameter**            |**Est (95% CI)**|**p-value**  |**Est (95% CI)**|**p-value** |**Est (95% CI)** |**p-value** |
+|**_Growth curve parameters_**|||||||
+|Intercept                | 8.298 (8.131, 8.465) | <.001 | 7.561 (6.757, 8.365) | <.001|  7.573 (6.769, 8.377) | <.001|
+|Slope (conditional mean) | -0.127 (-0.149, -0.105) | <.001 | -0.086 (-0.215, 0.043) | .19|  -0.091 (-0.220, 0.038) | .16|
+|**_HbA1c effects in growth curve_**|||||||
+|HbA1c spline in intercept| -0.084 (-0.239, 0.071) | .29 | -0.091 (-0.234, 0.052) | .21|  -0.089 (-0.232, 0.054) | .22|
+|HbA1c spline in slope    | -0.017 (-0.041, 0.007) | .18 | -0.007 (-0.029, 0.015) | .50|  -0.008 (-0.030, 0.014) | .48|
+|**_HbA1c effects in survival_**|||||||
+|Hazard ratio per unit increase in HbA1c spline| 1.117 (1.049, 1.190) | <.001 | 1.069 (1.002, 1.141) | .04|  1.065 (1.000, 1.134) | .050|
 
-  ***Growth curve parameters***                                                                                      
 
-  Intercept                            8.298 (8.131,   \<.001        7.561 (6.757, \<.001        7.573 (6.769,       \<.001
-                                       8.465)                        8.365)                      8.377)              
-
-  Slope (conditional mean)             -0.127 (-0.149, \<.001        -0.086        .19           -0.091 (-0.220,     .16
-                                       -0.105)                       (-0.215,                    0.038)              
-                                                                     0.043)                                          
-
-  ***HbA1c effects in growth curve***                                                                                
-
-  HbA1c spline in intercept            -0.084 (-0.239, .29           -0.091        .21           -0.089 (-0.232,     .22
-                                       0.071)                        (-0.234,                    0.054)              
-                                                                     0.052)                                          
-
-  HbA1c spline in slope                -0.017 (-0.041, .18           -0.007        .50           -0.008 (-0.030,     .48
-                                       0.007)                        (-0.029,                    0.014)              
-                                                                     0.015)                                          
-
-  ***HbA1c effects in survival***                                                                                    
-
-  Hazard ratio per unit increase in    1.117 (1.049,   \<.001        1.069 (1.002, .04           1.065 (1.000,       .050
-  HbA1c spline                         1.190)                        1.141)                      1.134)              
-  --------------------------------------------------------------------------------------------------------------------------------
-
-# Summary Table
+# Sample descriptive table
 
 Tables of participant characteristics are available as PDFs, which can
 be read into modern versions of Word and edited.
@@ -1356,8 +1342,8 @@ inpova: whether in poverty-w inst       [n (%)]
 0 0.hh inc above pov thresh                                                            1140  (77.6)               
 1 1.hh inc below pov thresh                                                             330  (22.4)               
                                                                                                                   
-atotb: total all assets inc. 2nd hm--cross-wave         [Median (P'tile 25-75)]     51600.0  [1800.0-159800.0] [-1.4e+05-1.5e+0
-
+atotb: total all assets inc. 2nd hm--cross-wave         [Median (P'tile 25-75)]     51600.0  [1800.0-159800.0] [-1.4e+05-1.5e+07]
+                                                                                                                  
 hitot minus 25 000  divided by 1000 [Median (P'tile 25-75)]                            -3.0  [-13.6-20.6] [-25.0-1544.9]
                                                                                                                   
 Completely retired  from rsayret [n (%)]                                                                          
@@ -1595,7 +1581,7 @@ doctim: No. doctor vists  prv 2 yrs       [Median (P'tile 25-75)]               
 nrsnit: No. nights in nurs home  prv 2 yrs        [Median (P'tile 25-75)]         0.0  [0.0-0.0]  [0.0-180.0]
                                                                                                             
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
-Notes:  3 missing on routpt, 1 missing on rdentst, 1 missing on rdrugs, 2 missing on rhomcar, 9 missing on rhsptim, 1 missing o
+Notes:  3 missing on routpt, 1 missing on rdentst, 1 missing on rdrugs, 2 missing on rhomcar, 9 missing on rhsptim, 1 missing on rnrstim, 14 missing on rhspnit, 86 missing on rdoctim,
 
 table1 results are stored in mata workspace in matrix 'results' , and in 
 
@@ -1692,7 +1678,7 @@ behaviors](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/table7.pdf)
 
 [This domd
 file](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.domd)\
-[This domd file, HTML
+[This domd file HTML
 output](https://github.com/rnj0nes/PsiMCA22WG3/blob/main/jm-03-continuous_time_survival-LG-data-20230706.html)
 
 ### Continuous time survival, unconditional
